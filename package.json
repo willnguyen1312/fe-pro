@@ -7,6 +7,10 @@
     "start-vue": "pnpm --filter 'vue' dev",
     "test-vanilla": "pnpm --filter 'vanilla' test",
     "test-react": "pnpm --filter 'react' test",
-    "test-vue": "pnpm --filter 'vue' test"
+    "test-vue": "pnpm --filter 'vue' test",
+    "test": "turbo run test:run"
+  },
+  "dependencies": {
+    "turbo": "^1.11.2"
   }
 }
