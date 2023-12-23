@@ -1,5 +1,9 @@
 {
-    "private": true,
-    "scripts": {
-    }
+  "private": true,
+  "name": "fe-pro",
+  "scripts": {
+    "start-vanilla": "pnpm --filter 'vanilla' dev",
+    "start-react": "pnpm --filter 'react' dev",
+    "start-vue": "pnpm --filter 'vue' dev"
+  }
 }
