@@ -4,6 +4,9 @@
   "scripts": {
     "start-vanilla": "pnpm --filter 'vanilla' dev",
     "start-react": "pnpm --filter 'react' dev",
-    "start-vue": "pnpm --filter 'vue' dev"
+    "start-vue": "pnpm --filter 'vue' dev",
+    "test-vanilla": "pnpm --filter 'vanilla' test",
+    "test-react": "pnpm --filter 'react' test",
+    "test-vue": "pnpm --filter 'vue' test"
   }
 }
