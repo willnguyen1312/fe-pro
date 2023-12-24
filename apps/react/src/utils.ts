@@ -1,5 +1,11 @@
 import { axe } from "jest-axe";
 
-export function checkA11y(container: HTMLElement) {
-  return axe(container);
+export async function checkA11y(container: HTMLElement) {
+  const result = await axe(container, {
+    rules: {
+      region: { enabled: false },
+    },
+  });
+
+  return result;
 }

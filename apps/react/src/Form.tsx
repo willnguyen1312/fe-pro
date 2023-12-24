@@ -32,30 +32,24 @@ export const Form = () => {
   }
 
   if (login) {
-    return (
-      <main>
-        <h1>Logged in!</h1>
-      </main>
-    );
+    return <h1>Logged in!</h1>;
   }
 
   return (
-    <main>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">
-          Username
-          <input id="username" name="username" placeholder="username" />
-        </label>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="username">
+        Username
+        <input id="username" name="username" placeholder="username" />
+      </label>
 
-        <label htmlFor="password">
-          Password
-          <input id="password" name="password" type="password" />
-        </label>
+      <label htmlFor="password">
+        Password
+        <input id="password" name="password" type="password" />
+      </label>
 
-        <button>Submit</button>
+      <button>Submit</button>
 
-        {error && <p role="alert">{error}</p>}
-      </form>
-    </main>
+      {error && <p role="alert">{error}</p>}
+    </form>
   );
 };
