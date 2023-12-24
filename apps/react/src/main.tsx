@@ -1,10 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 // import App from './App.tsx'
-import { Form } from "./Form";
+import { Hi } from "./Hi";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <Form />
-  </React.StrictMode>
-);
+async function enableMocking() {
+  if (process.env.NODE_ENV !== "development") {
+    return;
+  }
+
+  const { worker } = await import("./mocks/browser");
+
+  // `worker.start()` returns a Promise that resolves
+  // once the Service Worker is up and ready to intercept requests.
+  return worker.start();
+}
+
+enableMocking().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
+    <React.StrictMode>
+      <Hi />
+    </React.StrictMode>
+  );
+});
