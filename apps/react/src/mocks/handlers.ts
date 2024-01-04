@@ -14,7 +14,7 @@ export const handlers = [
         {
           // Status for bad data
           status: 400,
-        }
+        },
       );
     }
 

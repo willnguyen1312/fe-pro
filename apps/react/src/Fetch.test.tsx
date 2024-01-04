@@ -10,7 +10,7 @@ import { Fetch } from "./Fetch";
 const server = setupServer(
   http.get("/greeting", () => {
     return HttpResponse.json({ greeting: "hello there" });
-  })
+  }),
 );
 
 beforeAll(() => server.listen());
@@ -39,7 +39,7 @@ test("handles server error", async () => {
   server.use(
     http.get("/greeting", () => {
       return new HttpResponse(null, { status: 500 });
-    })
+    }),
   );
 
   // Arrange
@@ -66,7 +66,7 @@ test("accessibility", async () => {
       <input type="checkbox" />
       <input type="radio" />
       <input type="number" />
-    </div>
+    </div>,
   );
 
   const checkbox = screen.getByRole("checkbox");
