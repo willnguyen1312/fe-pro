@@ -1,21 +1,32 @@
-import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
 import "@testing-library/jest-dom";
+import { act, render, screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
+import { HttpResponse, http } from "msw";
+import { setupServer } from "msw/node";
+// import * as ExpensiveCompExports from "./ExpensiveComp";
 
-import { beforeAll, afterAll, afterEach, test, expect } from "vitest";
+import { afterAll, afterEach, beforeAll, expect, test, vi } from "vitest";
 import { Fetch } from "./Fetch";
 
 const server = setupServer(
   http.get("/greeting", () => {
     return HttpResponse.json({ greeting: "hello there" });
-  }),
+  })
 );
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
+
+vi.mock("./ExpensiveComp", () => ({
+  default: () => <span>Mocked ExpensiveComp</span>,
+}));
+
+test("ignore expensive component", async () => {
+  render(<Fetch url="/greeting" />);
+
+  expect(screen.getByText("Mocked ExpensiveComp")).toBeInTheDocument();
+});
 
 test("loads and displays greeting", async () => {
   // Arrange
@@ -27,7 +38,7 @@ test("loads and displays greeting", async () => {
     name: /load greeting/i,
   });
 
-  await user.click(loadGreetingButton);
+  await act(() => user.click(loadGreetingButton));
   await screen.findByRole("heading");
 
   // Assert
@@ -39,7 +50,7 @@ test("handles server error", async () => {
   server.use(
     http.get("/greeting", () => {
       return new HttpResponse(null, { status: 500 });
-    }),
+    })
   );
 
   // Arrange
@@ -50,7 +61,8 @@ test("handles server error", async () => {
   const loadGreetingButton = screen.getByRole("button", {
     name: /load greeting/i,
   });
-  await user.click(loadGreetingButton);
+
+  await act(() => user.click(loadGreetingButton));
 
   await screen.findByRole("alert");
 
@@ -66,7 +78,7 @@ test("accessibility", async () => {
       <input type="checkbox" />
       <input type="radio" />
       <input type="number" />
-    </div>,
+    </div>
   );
 
   const checkbox = screen.getByRole("checkbox");

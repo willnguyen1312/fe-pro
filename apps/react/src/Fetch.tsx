@@ -1,4 +1,5 @@
 import React from "react";
+import ExpensiveComp from "./ExpensiveComp";
 
 export const Fetch = (props: { url: string }) => {
   const [greeting, setGreeting] = React.useState("");
@@ -21,6 +22,8 @@ export const Fetch = (props: { url: string }) => {
       </button>
       {greeting ? <h1>{greeting}</h1> : null}
       {error ? <h1 role="alert">{error}</h1> : null}
+
+      <ExpensiveComp />
     </div>
   );
 };
