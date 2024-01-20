@@ -24,13 +24,16 @@ function getExampleDOM() {
   button?.addEventListener("click", () => {
     // let's pretend this is making a server request, so it's async
     // (you'd want to mock this imaginary request in your unit tests)...
-    setTimeout(() => {
-      const printedUsernameContainer = document.createElement("div");
-      printedUsernameContainer.innerHTML = `
+    setTimeout(
+      () => {
+        const printedUsernameContainer = document.createElement("div");
+        printedUsernameContainer.innerHTML = `
           <div data-testid="printed-username">${input?.value}</div>
         `;
-      div.appendChild(printedUsernameContainer);
-    }, Math.floor(Math.random() * 200));
+        div.appendChild(printedUsernameContainer);
+      },
+      Math.floor(Math.random() * 200),
+    );
   });
   return div;
 }
@@ -50,13 +53,13 @@ test("examples of some things", async () => {
   getByText(container, "Print Username").click();
 
   await waitFor(() =>
-    expect(queryByTestId(container, "printed-username")).toBeTruthy()
+    expect(queryByTestId(container, "printed-username")).toBeTruthy(),
   );
 
   // getByTestId and queryByTestId are an escape hatch to get elements
   // by a test id (could also attempt to get this element by its text)
   expect(getByTestId(container, "printed-username")).toHaveTextContent(
-    famousProgrammerInHistory
+    famousProgrammerInHistory,
   );
   // jest snapshots work great with regular DOM nodes!
   expect(container).toMatchSnapshot();

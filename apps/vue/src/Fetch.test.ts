@@ -10,7 +10,7 @@ import Fetch from "./Fetch.vue";
 const server = setupServer(
   http.get("/greeting", () => {
     return HttpResponse.json({ greeting: "hello there" });
-  })
+  }),
 );
 
 beforeAll(() => server.listen());
@@ -41,7 +41,7 @@ test("handles server error", async () => {
   server.use(
     http.get("/greeting", () => {
       return new HttpResponse(null, { status: 500 });
-    })
+    }),
   );
 
   // Arrange
