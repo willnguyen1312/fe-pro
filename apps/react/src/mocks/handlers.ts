@@ -7,7 +7,7 @@ const movies: {
 
 export const handlers: any = [
   graphql.query("ListMovies", async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1));
+    // await new Promise((resolve) => setTimeout(resolve, 300));
     movies.push({
       title: `Movie ${movies.length + 1}`,
       id: `${movies.length + 1}`,
