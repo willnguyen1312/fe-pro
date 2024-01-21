@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import App from './App.tsx'
-import { Hi } from "./Hi";
+import App from "./App";
+// import { Hi } from "./Hi";
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== "development") {
@@ -18,7 +18,7 @@ async function enableMocking() {
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-      <Hi />
-    </React.StrictMode>,
+      <App />
+    </React.StrictMode>
   );
 });
