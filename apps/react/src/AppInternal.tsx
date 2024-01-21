@@ -7,7 +7,7 @@ import {
   Text,
   BlockStack,
 } from "@shopify/polaris";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@shopify/react-graphql";
 import { gql } from "@apollo/client";
 import "@shopify/polaris/build/esm/styles.css";
 
