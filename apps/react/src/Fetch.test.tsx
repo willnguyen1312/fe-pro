@@ -2,21 +2,18 @@ import "@testing-library/jest-dom";
 import { act, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { HttpResponse, http } from "msw";
-import { setupServer } from "msw/node";
-// import * as ExpensiveCompExports from "./ExpensiveComp";
+import { server } from "./mocks/node";
 
-import { afterAll, afterEach, beforeAll, expect, test, vi } from "vitest";
+import { expect, test, vi } from "vitest";
 import { Fetch } from "./Fetch";
 
-const server = setupServer(
-  http.get("/greeting", () => {
-    return HttpResponse.json({ greeting: "hello there" });
-  })
-);
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+beforeEach(() => {
+  server.use(
+    http.get("/greeting", () => {
+      return HttpResponse.json({ greeting: "hello there" });
+    })
+  );
+});
 
 vi.mock("./ExpensiveComp", () => ({
   default: () => <span>Mocked ExpensiveComp</span>,
