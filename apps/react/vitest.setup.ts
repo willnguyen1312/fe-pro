@@ -20,16 +20,18 @@ afterAll(() => {
   server.close();
 });
 
-Object.defineProperty(window, "matchMedia", {
-  writable: true,
-  value: () => {
-    return {
-      matches: false,
-      addEventListener: () => {},
-      removeEventListener: () => {},
-    };
-  },
-});
+// JSDOM needs this to work properly
+
+// Object.defineProperty(window, "matchMedia", {
+//   writable: true,
+//   value: () => {
+//     return {
+//       matches: false,
+//       addEventListener: () => {},
+//       removeEventListener: () => {},
+//     };
+//   },
+// });
 
 server.events.on("request:start", ({ request }) => {
   console.log("MSW intercepted:", request.method, request.url);
