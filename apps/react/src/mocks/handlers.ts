@@ -1,6 +1,24 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse, graphql } from "msw";
 
-export const handlers = [
+const movies: {
+  title: string;
+  id: string;
+}[] = [];
+
+export const handlers: any = [
+  graphql.query("ListMovies", async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    movies.push({
+      title: `Movie ${movies.length + 1}`,
+      id: `${movies.length + 1}`,
+    });
+    return HttpResponse.json({
+      data: {
+        movies,
+      },
+    });
+  }),
+
   http.post("/api/hello", async ({ request }) => {
     await new Promise((resolve) => setTimeout(resolve, 250));
     const data = (await request.json()) as { name: string };
@@ -14,7 +32,7 @@ export const handlers = [
         {
           // Status for bad data
           status: 400,
-        },
+        }
       );
     }
 
