@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import { describe, it } from "vitest";
+import { act, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
+import { describe, it } from "vitest";
 import { Form } from "./Form";
 import { checkA11y } from "./utils";
 
@@ -16,17 +16,17 @@ describe("Form component", () => {
       const { container } = render(<Form />);
 
       const usernameInput = screen.getByLabelText(/username/i);
-      await user.click(usernameInput);
-      await user.keyboard("username");
+      await act(() => user.click(usernameInput));
+      await act(() => user.keyboard("username"));
       const passwordInput = screen.getByLabelText(/password/i);
-      await user.click(passwordInput);
-      await user.keyboard("password");
+      await act(() => user.click(passwordInput));
+      await act(() => user.keyboard("password"));
 
       const submitButton = screen.getByRole("button", { name: /submit/i });
-      await user.click(submitButton);
+      await act(() => user.click(submitButton));
 
       expect(
-        screen.getByRole("heading", { name: /logged in!/i }),
+        screen.getByRole("heading", { name: /logged in!/i })
       ).toBeInTheDocument();
 
       expect(await checkA11y(container)).toHaveNoViolations();
@@ -39,10 +39,10 @@ describe("Form component", () => {
       const { container } = render(<Form />);
 
       const submitButton = screen.getByRole("button", { name: /submit/i });
-      await user.click(submitButton);
+      await act(() => user.click(submitButton));
 
       expect(screen.getByRole("alert")).toHaveTextContent(
-        /Username is required/i,
+        /Username is required/i
       );
       expect(screen.getByLabelText(/username/i)).toHaveFocus();
 
@@ -56,14 +56,14 @@ describe("Form component", () => {
       const { container } = render(<Form />);
 
       const usernameInput = screen.getByLabelText(/username/i);
-      await user.click(usernameInput);
-      await user.keyboard("username");
+      await act(() => user.click(usernameInput));
+      await act(() => user.keyboard("username"));
 
       const submitButton = screen.getByRole("button", { name: /submit/i });
-      await user.click(submitButton);
+      await act(() => user.click(submitButton));
 
       expect(screen.getByRole("alert")).toHaveTextContent(
-        /Password is required/i,
+        /Password is required/i
       );
       expect(screen.getByLabelText(/password/i)).toHaveFocus();
 
@@ -77,14 +77,15 @@ describe("Form component", () => {
       const { container } = render(<Form />);
 
       const usernameInput = screen.getByLabelText(/username/i);
-      await user.click(usernameInput);
-      await user.keyboard("wrong username");
+      await act(() => user.click(usernameInput));
+      await act(() => user.keyboard("wrong username"));
       const passwordInput = screen.getByLabelText(/password/i);
-      await user.click(passwordInput);
-      await user.keyboard("password");
+
+      await act(() => user.click(passwordInput));
+      await act(() => user.keyboard("password"));
 
       const submitButton = screen.getByRole("button", { name: /submit/i });
-      await user.click(submitButton);
+      await act(() => user.click(submitButton));
 
       expect(screen.getByRole("alert")).toHaveTextContent(/Invalid username/i);
       expect(usernameInput).toHaveFocus();
@@ -99,14 +100,14 @@ describe("Form component", () => {
       const { container } = render(<Form />);
 
       const usernameInput = screen.getByLabelText(/username/i);
-      await user.click(usernameInput);
-      await user.keyboard("username");
+      await act(() => user.click(usernameInput));
+      await act(() => user.keyboard("username"));
       const passwordInput = screen.getByLabelText(/password/i);
-      await user.click(passwordInput);
-      await user.keyboard("wrong password");
+      await act(() => user.click(passwordInput));
+      await act(() => user.keyboard("wrong password"));
 
       const submitButton = screen.getByRole("button", { name: /submit/i });
-      await user.click(submitButton);
+      await act(() => user.click(submitButton));
 
       expect(screen.getByRole("alert")).toHaveTextContent(/Invalid password/i);
       expect(passwordInput).toHaveFocus();
@@ -119,20 +120,20 @@ describe("Form component", () => {
     render(<Form />);
 
     const user = userEvent.setup();
-    await user.tab();
+    await act(() => user.tab());
     expect(screen.getByLabelText(/username/i)).toHaveFocus();
-    await user.keyboard("username");
+    await act(() => user.keyboard("username"));
 
-    await user.tab();
+    await act(() => user.tab());
     expect(screen.getByLabelText(/password/i)).toHaveFocus();
-    await user.keyboard("password");
+    await act(() => user.keyboard("password"));
 
-    await user.tab();
+    await act(() => user.tab());
     expect(screen.getByRole("button", { name: /submit/i })).toHaveFocus();
-    await user.keyboard("{Enter}");
+    await act(() => user.keyboard("{Enter}"));
 
     expect(
-      screen.getByRole("heading", { name: /logged in!/i }),
+      screen.getByRole("heading", { name: /logged in!/i })
     ).toBeInTheDocument();
   });
 });
