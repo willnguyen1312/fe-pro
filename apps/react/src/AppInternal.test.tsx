@@ -24,7 +24,7 @@ function renderWithProviders(ui: React.ReactElement) {
   return render(
     <ApolloProvider client={client}>
       <PolarisTestProvider>{ui}</PolarisTestProvider>
-    </ApolloProvider>
+    </ApolloProvider>,
   );
 }
 

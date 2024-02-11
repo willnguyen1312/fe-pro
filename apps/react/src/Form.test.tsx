@@ -26,7 +26,7 @@ describe("Form component", () => {
       await act(() => user.click(submitButton));
 
       expect(
-        screen.getByRole("heading", { name: /logged in!/i })
+        screen.getByRole("heading", { name: /logged in!/i }),
       ).toBeInTheDocument();
 
       expect(await checkA11y(container)).toHaveNoViolations();
@@ -42,7 +42,7 @@ describe("Form component", () => {
       await act(() => user.click(submitButton));
 
       expect(screen.getByRole("alert")).toHaveTextContent(
-        /Username is required/i
+        /Username is required/i,
       );
       expect(screen.getByLabelText(/username/i)).toHaveFocus();
 
@@ -63,7 +63,7 @@ describe("Form component", () => {
       await act(() => user.click(submitButton));
 
       expect(screen.getByRole("alert")).toHaveTextContent(
-        /Password is required/i
+        /Password is required/i,
       );
       expect(screen.getByLabelText(/password/i)).toHaveFocus();
 
@@ -133,7 +133,7 @@ describe("Form component", () => {
     await act(() => user.keyboard("{Enter}"));
 
     expect(
-      screen.getByRole("heading", { name: /logged in!/i })
+      screen.getByRole("heading", { name: /logged in!/i }),
     ).toBeInTheDocument();
   });
 });

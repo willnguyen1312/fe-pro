@@ -37,7 +37,7 @@ export const handlers: any = [
         {
           // Status for bad data
           status: 400,
-        }
+        },
       );
     }
 

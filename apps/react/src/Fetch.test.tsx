@@ -11,7 +11,7 @@ beforeEach(() => {
   server.use(
     http.get("/greeting", () => {
       return HttpResponse.json({ greeting: "hello there" });
-    })
+    }),
   );
 });
 
@@ -47,7 +47,7 @@ test("handles server error", async () => {
   server.use(
     http.get("/greeting", () => {
       return new HttpResponse(null, { status: 500 });
-    })
+    }),
   );
 
   // Arrange
@@ -75,7 +75,7 @@ test("accessibility", async () => {
       <input type="checkbox" />
       <input type="radio" />
       <input type="number" />
-    </div>
+    </div>,
   );
 
   const checkbox = screen.getByRole("checkbox");
