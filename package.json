@@ -11,6 +11,6 @@
     "test": "turbo run test:run"
   },
   "dependencies": {
-    "turbo": "^1.11.3"
+    "turbo": "^1.12.3"
   }
 }
