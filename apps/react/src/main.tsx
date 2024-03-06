@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import App from "./App";
-import App from "./Fetch";
+import App from "./App";
+// import App from "./Fetch";
 // import { Hi } from "./Hi";
 
 async function enableMocking() {

@@ -6,12 +6,13 @@ import {
   TextField,
   Text,
   BlockStack,
+  Button,
 } from "@shopify/polaris";
 import { useQuery } from "@shopify/react-graphql";
-import { gql } from "@apollo/client";
+import { gql, useLazyQuery } from "@apollo/client";
 import "@shopify/polaris/build/esm/styles.css";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const GET_MOVIES = gql`
   query ListMovies {
@@ -24,10 +25,13 @@ const GET_MOVIES = gql`
 
 export function AppInternal() {
   const [name, setName] = useState("Nam");
-  const { data, loading, error } = useQuery<{
+  const abortControllerRef = useRef(new AbortController());
+
+  const [fetchMovie, { data, loading, error }] = useLazyQuery<{
     movies: { title: string }[];
   }>(GET_MOVIES as any, {
     fetchPolicy: "cache-and-network",
+    skipPollAttempt: () => true,
   });
 
   return (
@@ -52,6 +56,31 @@ export function AppInternal() {
             </FormLayout>
           </Form>
         </Card>
+
+        <Button
+          onClick={() => {
+            fetchMovie({
+              context: {
+                fetchOptions: {
+                  signal: abortControllerRef.current.signal,
+                },
+              },
+            }).finally(() => {
+              console.log("finally");
+              abortControllerRef.current = new AbortController();
+            });
+          }}
+        >
+          Load movie
+        </Button>
+
+        <Button
+          onClick={() => {
+            abortControllerRef.current.abort();
+          }}
+        >
+          Cancel
+        </Button>
 
         <Card>
           {loading && <Text as="p">Loading...</Text>}

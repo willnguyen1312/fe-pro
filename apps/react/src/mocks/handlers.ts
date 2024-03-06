@@ -10,7 +10,7 @@ const isTest = process.env.NODE_ENV === "test";
 export const handlers: any = [
   graphql.query("ListMovies", async () => {
     if (!isTest) {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
     }
 
     movies.push({
