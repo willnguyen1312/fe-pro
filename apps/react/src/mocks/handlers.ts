@@ -24,6 +24,14 @@ export const handlers: any = [
     });
   }),
 
+  http.get("/api/hello", async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    return HttpResponse.json({
+      message: `Hello back!`,
+    });
+  }),
+
   http.post("/api/hello", async ({ request }) => {
     await new Promise((resolve) => setTimeout(resolve, 250));
     const data = (await request.json()) as { name: string };
@@ -37,7 +45,7 @@ export const handlers: any = [
         {
           // Status for bad data
           status: 400,
-        },
+        }
       );
     }
 
