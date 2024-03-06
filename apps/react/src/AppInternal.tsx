@@ -9,7 +9,12 @@ import {
   Button,
 } from "@shopify/polaris";
 import { useQuery } from "@shopify/react-graphql";
-import { gql, useLazyQuery } from "@apollo/client";
+import {
+  gql,
+  useApolloClient,
+  useLazyQuery,
+  ApolloError,
+} from "@apollo/client";
 import "@shopify/polaris/build/esm/styles.css";
 
 import { useRef, useState } from "react";
@@ -26,11 +31,12 @@ const GET_MOVIES = gql`
 export function AppInternal() {
   const [name, setName] = useState("Nam");
   const abortControllerRef = useRef(new AbortController());
+  const client = useApolloClient();
 
   const [fetchMovie, { data, loading, error }] = useLazyQuery<{
     movies: { title: string }[];
   }>(GET_MOVIES as any, {
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "network-only",
     skipPollAttempt: () => true,
   });
 
@@ -58,17 +64,45 @@ export function AppInternal() {
         </Card>
 
         <Button
-          onClick={() => {
-            fetchMovie({
-              context: {
-                fetchOptions: {
-                  signal: abortControllerRef.current.signal,
-                },
-              },
-            }).finally(() => {
-              console.log("finally");
-              abortControllerRef.current = new AbortController();
-            });
+          onClick={async () => {
+            // fetchMovie({
+            //   context: {
+            //     fetchOptions: {
+            //       signal: abortControllerRef.current.signal,
+            //     },
+            //   },
+            // }).finally(() => {
+            //   console.log("finally");
+            //   abortControllerRef.current = new AbortController();
+            // });
+
+            try {
+              await client
+                .query({
+                  query: GET_MOVIES,
+                  fetchPolicy: "network-only",
+                  context: {
+                    fetchOptions: {
+                      signal: abortControllerRef.current.signal,
+                    },
+                  },
+                })
+                .then((result) => {
+                  console.log(result);
+                })
+                .finally(() => {
+                  console.log("Finally");
+                  abortControllerRef.current = new AbortController();
+                });
+            } catch (error) {
+              if (error instanceof ApolloError) {
+                const { networkError } = error;
+
+                const isAbortError = networkError.name === "AbortError";
+
+                console.log("error nha: ", networkError);
+              }
+            }
           }}
         >
           Load movie
