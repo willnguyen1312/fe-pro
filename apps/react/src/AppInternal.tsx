@@ -30,7 +30,7 @@ const GET_MOVIES = gql`
 
 export function AppInternal() {
   const [name, setName] = useState("Nam");
-  const abortControllerRef = useRef(new AbortController());
+  const lastSubscriptionRef = useRef<any>();
   const client = useApolloClient();
 
   const [fetchMovie, { data, loading, error }] = useLazyQuery<{
@@ -39,6 +39,12 @@ export function AppInternal() {
     fetchPolicy: "network-only",
     skipPollAttempt: () => true,
   });
+
+  const unsubscribe = () => {
+    if (lastSubscriptionRef.current) {
+      lastSubscriptionRef.current.unsubscribe();
+    }
+  };
 
   return (
     <Page title="Add Product">
@@ -64,57 +70,28 @@ export function AppInternal() {
         </Card>
 
         <Button
-          onClick={async () => {
-            // fetchMovie({
-            //   context: {
-            //     fetchOptions: {
-            //       signal: abortControllerRef.current.signal,
-            //     },
-            //   },
-            // }).finally(() => {
-            //   console.log("finally");
-            //   abortControllerRef.current = new AbortController();
-            // });
+          onClick={() => {
+            unsubscribe();
 
-            try {
-              await client
-                .query({
-                  query: GET_MOVIES,
-                  fetchPolicy: "network-only",
-                  context: {
-                    fetchOptions: {
-                      signal: abortControllerRef.current.signal,
-                    },
-                  },
-                })
-                .then((result) => {
-                  console.log(result);
-                })
-                .finally(() => {
-                  console.log("Finally");
-                  abortControllerRef.current = new AbortController();
-                });
-            } catch (error) {
-              if (error instanceof ApolloError) {
-                const { networkError } = error;
+            // Need to wait for the next event loop to continue querying
+            setTimeout(() => {
+              const queryInstance = client.watchQuery({
+                query: GET_MOVIES,
+                fetchPolicy: "network-only",
+              });
 
-                const isAbortError = networkError.name === "AbortError";
-
-                console.log("error nha: ", networkError);
-              }
-            }
+              lastSubscriptionRef.current = queryInstance.subscribe(
+                (result) => {
+                  console.log("result: ", result);
+                }
+              );
+            }, 0);
           }}
         >
           Load movie
         </Button>
 
-        <Button
-          onClick={() => {
-            abortControllerRef.current.abort();
-          }}
-        >
-          Cancel
-        </Button>
+        <Button onClick={unsubscribe}>Cancel</Button>
 
         <Card>
           {loading && <Text as="p">Loading...</Text>}
