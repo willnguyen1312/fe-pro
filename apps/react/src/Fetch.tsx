@@ -1,5 +1,6 @@
 import React from "react";
 import ExpensiveComp from "./ExpensiveComp";
+import { a } from "vitest/dist/suite-UrZdHRff.js";
 
 export const Fetch = (props: { url?: string }) => {
   const [greeting, setGreeting] = React.useState("");
@@ -8,6 +9,9 @@ export const Fetch = (props: { url?: string }) => {
 
   async function loadGreeting() {
     try {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = new AbortController();
+
       const response = await fetch(
         new URL(props.url ?? "/api/hello", location.href),
         {
