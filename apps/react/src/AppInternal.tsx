@@ -86,7 +86,7 @@ export function AppInternal() {
               lastSubscriptionRef.current = queryInstance.subscribe(
                 (result) => {
                   console.log("result: ", result);
-                }
+                },
               );
             }, 0);
           }}

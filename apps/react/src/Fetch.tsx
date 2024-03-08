@@ -16,7 +16,7 @@ export const Fetch = (props: { url?: string }) => {
         new URL(props.url ?? "/api/hello", location.href),
         {
           signal: abortControllerRef.current.signal,
-        }
+        },
       );
       const data = await response.json();
       setGreeting(data.greeting);
