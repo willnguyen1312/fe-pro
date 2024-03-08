@@ -28,6 +28,8 @@ const GET_MOVIES = gql`
   }
 `;
 
+let count = 0;
+
 export function AppInternal() {
   const [name, setName] = useState("Nam");
   const lastSubscriptionRef = useRef<any>();
@@ -47,9 +49,9 @@ export function AppInternal() {
   };
 
   return (
-    <Page title="Add Product">
+    <Page title="Cinema 🎥">
       <BlockStack gap="400">
-        <Card>
+        {/* <Card>
           <Form
             onSubmit={() => {
               console.log("submitted");
@@ -67,16 +69,17 @@ export function AppInternal() {
               />
             </FormLayout>
           </Form>
-        </Card>
+        </Card> */}
 
         <Button
           onClick={() => {
-            unsubscribe();
+            // unsubscribe();
 
             // Need to wait for the next event loop to continue querying
             setTimeout(() => {
               const queryInstance = client.watchQuery({
                 query: GET_MOVIES,
+                variables: { count: count++ },
                 fetchPolicy: "network-only",
               });
 
@@ -93,7 +96,7 @@ export function AppInternal() {
 
         <Button onClick={unsubscribe}>Cancel</Button>
 
-        <Card>
+        {/* <Card>
           {loading && <Text as="p">Loading...</Text>}
           {error && <Text as="p">{error.message}</Text>}
           {data?.movies.map((movie) => (
@@ -101,7 +104,7 @@ export function AppInternal() {
               {movie.title}
             </Text>
           ))}
-        </Card>
+        </Card> */}
       </BlockStack>
     </Page>
   );

@@ -7,10 +7,14 @@ const movies: {
 
 const isTest = process.env.NODE_ENV === "test";
 
+const timeouts: number[] = [1000, 2000, 3000, 4000, 5000];
+
 export const handlers: any = [
   graphql.query("ListMovies", async () => {
     if (!isTest) {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      // Random number from 0 to 4
+      const timeout = timeouts[Math.floor(Math.random() * 5)];
+      await new Promise((resolve) => setTimeout(resolve, timeout));
     }
 
     movies.push({
