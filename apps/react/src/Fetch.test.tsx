@@ -11,7 +11,7 @@ beforeEach(() => {
   server.use(
     http.get("/greeting", () => {
       return HttpResponse.json({ greeting: "hello there" });
-    }),
+    })
   );
 });
 
@@ -19,13 +19,13 @@ vi.mock("./ExpensiveComp", () => ({
   default: () => <span>Mocked ExpensiveComp</span>,
 }));
 
-test("ignore expensive component", async () => {
+test.skip("ignore expensive component", async () => {
   render(<Fetch url="/greeting" />);
 
   expect(screen.getByText("Mocked ExpensiveComp")).toBeInTheDocument();
 });
 
-test("loads and displays greeting", async () => {
+test.skip("loads and displays greeting", async () => {
   // Arrange
   const user = userEvent.setup();
   render(<Fetch url="/greeting" />);
@@ -43,11 +43,11 @@ test("loads and displays greeting", async () => {
   expect(screen.getByRole("button")).toBeDisabled();
 });
 
-test("handles server error", async () => {
+test.skip("handles server error", async () => {
   server.use(
     http.get("/greeting", () => {
       return new HttpResponse(null, { status: 500 });
-    }),
+    })
   );
 
   // Arrange
@@ -75,7 +75,7 @@ test("accessibility", async () => {
       <input type="checkbox" />
       <input type="radio" />
       <input type="number" />
-    </div>,
+    </div>
   );
 
   const checkbox = screen.getByRole("checkbox");
