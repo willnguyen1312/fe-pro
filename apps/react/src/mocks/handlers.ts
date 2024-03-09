@@ -7,13 +7,13 @@ const movies: {
 
 const isTest = process.env.NODE_ENV === "test";
 
-const timeouts: number[] = [1000, 2000, 3000, 4000, 5000];
+const timeouts: number[] = [2500, 5000, 10000, NaN];
 
 export const handlers: any = [
   graphql.query("ListMovies", async () => {
+    const timeout = timeouts[Math.floor(Math.random() * 5)];
     if (!isTest) {
       // Random number from 0 to 4
-      const timeout = timeouts[Math.floor(Math.random() * 5)];
       await new Promise((resolve) => setTimeout(resolve, timeout));
     }
 
@@ -21,11 +21,18 @@ export const handlers: any = [
       title: `Movie ${movies.length + 1}`,
       id: `${movies.length + 1}`,
     });
-    return HttpResponse.json({
-      data: {
-        movies,
+    return HttpResponse.json(
+      {
+        data: {
+          movies,
+        },
       },
-    });
+      isTest
+        ? {}
+        : {
+            status: Number.isNaN(timeout) ? 500 : 200,
+          }
+    );
   }),
 
   http.get("/api/hello", async () => {
@@ -49,7 +56,7 @@ export const handlers: any = [
         {
           // Status for bad data
           status: 400,
-        },
+        }
       );
     }
 
