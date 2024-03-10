@@ -31,7 +31,7 @@ export const handlers: any = [
         ? {}
         : {
             status: Number.isNaN(timeout) ? 500 : 200,
-          }
+          },
     );
   }),
 
@@ -56,7 +56,7 @@ export const handlers: any = [
         {
           // Status for bad data
           status: 400,
-        }
+        },
       );
     }
 
