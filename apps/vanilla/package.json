@@ -7,7 +7,7 @@
     "dev": "vite",
     "test": "vitest",
     "test:run": "vitest --run",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
