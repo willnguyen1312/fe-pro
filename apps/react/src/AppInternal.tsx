@@ -18,6 +18,7 @@ import {
 import "@shopify/polaris/build/esm/styles.css";
 
 import { useRef, useState } from "react";
+import { client } from "./apolloClient";
 
 const GET_MOVIES = gql`
   query ListMovies {
@@ -33,18 +34,11 @@ let count = 0;
 export function AppInternal() {
   const [name, setName] = useState("Nam");
   const lastSubscriptionRef = useRef<any>();
-  const client = useApolloClient();
-
-  const [fetchMovie, { data, loading, error }] = useLazyQuery<{
-    movies: { title: string }[];
-  }>(GET_MOVIES as any, {
-    fetchPolicy: "network-only",
-    skipPollAttempt: () => true,
-  });
 
   const unsubscribe = () => {
     if (lastSubscriptionRef.current) {
       lastSubscriptionRef.current.unsubscribe();
+      console.log(lastSubscriptionRef.current);
     }
   };
 
@@ -86,7 +80,7 @@ export function AppInternal() {
               lastSubscriptionRef.current = queryInstance.subscribe(
                 (result) => {
                   console.log("result: ", result);
-                },
+                }
               );
             }, 0);
           }}
