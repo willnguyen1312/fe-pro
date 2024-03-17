@@ -1,3 +1,5 @@
+import "./style.css";
+
 // https://developer.chrome.com/docs/devtools/memory-problems#allocation-profile
 
 // var x = [];
