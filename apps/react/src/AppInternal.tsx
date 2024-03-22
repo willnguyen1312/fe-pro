@@ -1,5 +1,5 @@
 import { Page, BlockStack, Button } from "@shopify/polaris";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import "@shopify/polaris/build/esm/styles.css";
 
 import { useRef, useState } from "react";
@@ -16,7 +16,15 @@ const GET_MOVIES = gql`
 
 export function AppInternal() {
   const [name, setName] = useState("Nam");
+  const { data } = useQuery(GET_MOVIES, {
+    fetchPolicy: "cache-and-network",
+    variables: {
+      name,
+    },
+  });
   const lastSubscriptionRef = useRef<any>();
+
+  console.log({ data });
 
   const unsubscribe = () => {
     if (lastSubscriptionRef.current) {
@@ -50,25 +58,27 @@ export function AppInternal() {
 
         <Button
           onClick={() => {
+            setName("VI");
+            // setName((prev) => prev + "a");
             // unsubscribe();
-
             // Need to wait for the next event loop to continue querying
-            setTimeout(() => {
-              const queryInstance = client.watchQuery({
-                query: GET_MOVIES,
-                fetchPolicy: "network-only",
-              });
-
-              lastSubscriptionRef.current = queryInstance.subscribe(
-                (result) => {
-                  console.log("result: ", result);
-                },
-              );
-            }, 0);
+            // setTimeout(() => {
+            //   const queryInstance = client.watchQuery({
+            //     query: GET_MOVIES,
+            //     fetchPolicy: "network-only",
+            //   });
+            //   lastSubscriptionRef.current = queryInstance.subscribe(
+            //     (result) => {
+            //       console.log("result: ", result);
+            //     }
+            //   );
+            // }, 0);
           }}
         >
           Load movie
         </Button>
+
+        <h1>Movie length: {data?.movies?.length}</h1>
 
         <Button onClick={unsubscribe}>Cancel</Button>
 

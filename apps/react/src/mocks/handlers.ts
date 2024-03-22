@@ -7,7 +7,7 @@ const movies: {
 
 const isTest = process.env.NODE_ENV === "test";
 
-const timeouts: number[] = [2500, 5000, 10000, NaN];
+const timeouts: number[] = [250, 250, 250, 250];
 
 export const handlers: any = [
   graphql.query("ListMovies", async () => {
@@ -31,7 +31,7 @@ export const handlers: any = [
         ? {}
         : {
             status: Number.isNaN(timeout) ? 500 : 200,
-          },
+          }
     );
   }),
 
@@ -56,7 +56,7 @@ export const handlers: any = [
         {
           // Status for bad data
           status: 400,
-        },
+        }
       );
     }
 
