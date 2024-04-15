@@ -1,8 +1,8 @@
 import { Page, BlockStack, Button } from "@shopify/polaris";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useApolloClient, ApolloError } from "@apollo/client";
 import "@shopify/polaris/build/esm/styles.css";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { client } from "./apolloClient";
 
 const GET_MOVIES = gql`
@@ -16,18 +16,38 @@ const GET_MOVIES = gql`
 
 export function AppInternal() {
   const [name, setName] = useState("Nam");
-  const { data, refetch, error } = useQuery(GET_MOVIES, {
-    fetchPolicy: "cache-and-network",
-    variables: {
-      name,
-    },
-    onError() {
-      console.log(arguments);
-    },
-  });
+  const apolloClient = useApolloClient();
+  const [data, setData] = useState<any>(null);
+  // const { data, refetch, error } = useQuery(GET_MOVIES, {
+  //   // fetchPolicy: "cache-and-network",
+  //   // variables: {
+  //   //   name,
+  //   // },
+  //   onError() {
+  //     // console.log(arguments);
+  //   },
+  // });
   const lastSubscriptionRef = useRef<any>();
 
-  console.log({ error });
+  const fetchMovies = () => {
+    apolloClient
+      .query({
+        query: GET_MOVIES,
+        // fetchPolicy: "no-cache",
+      })
+      .then((result) => {
+        setData(result.data);
+      })
+      .catch((error) => {
+        if (error instanceof ApolloError) {
+          console.log({ error });
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchMovies();
+  }, []);
 
   const unsubscribe = () => {
     if (lastSubscriptionRef.current) {
@@ -39,44 +59,9 @@ export function AppInternal() {
   return (
     <Page title="Cinema 🎥">
       <BlockStack gap="400">
-        {/* <Card>
-          <Form
-            onSubmit={() => {
-              console.log("submitted");
-            }}
-          >
-            <FormLayout>
-              <TextField
-                value={name}
-                onChange={(value) => {
-                  setName(value);
-                }}
-                label="Name"
-                type="text"
-                autoComplete="off"
-              />
-            </FormLayout>
-          </Form>
-        </Card> */}
-
         <Button
           onClick={() => {
-            refetch();
-            // setName("VI");
-            // setName((prev) => prev + "a");
-            // unsubscribe();
-            // Need to wait for the next event loop to continue querying
-            // setTimeout(() => {
-            //   const queryInstance = client.watchQuery({
-            //     query: GET_MOVIES,
-            //     fetchPolicy: "network-only",
-            //   });
-            //   lastSubscriptionRef.current = queryInstance.subscribe(
-            //     (result) => {
-            //       console.log("result: ", result);
-            //     }
-            //   );
-            // }, 0);
+            fetchMovies();
           }}
         >
           Load movie

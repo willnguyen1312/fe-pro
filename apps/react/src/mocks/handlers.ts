@@ -7,7 +7,7 @@ const movies: {
 
 const isTest = process.env.NODE_ENV === "test";
 
-const timeouts: number[] = [1000, 1500, 2000, NaN];
+const timeouts: number[] = [1000];
 
 export const handlers: any = [
   graphql.query("ListMovies", async () => {
@@ -21,18 +21,16 @@ export const handlers: any = [
       title: `Movie ${movies.length + 1}`,
       id: `${movies.length + 1}`,
     });
-    return HttpResponse.json(
-      {
-        data: {
-          movies,
-        },
+    return HttpResponse.json({
+      data: {
+        movies,
       },
-      isTest
-        ? {}
-        : {
-            status: Number.isNaN(timeout) ? 500 : 200,
-          }
-    );
+      errors: [
+        {
+          message: "Error",
+        },
+      ],
+    });
   }),
 
   http.get("/api/hello", async () => {
