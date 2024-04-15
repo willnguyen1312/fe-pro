@@ -16,15 +16,15 @@ const GET_MOVIES = gql`
 
 export function AppInternal() {
   const [name, setName] = useState("Nam");
-  const { data } = useQuery(GET_MOVIES, {
-    fetchPolicy: "cache-and-network",
+  const { data, refetch, error } = useQuery(GET_MOVIES, {
+    // fetchPolicy: "network-only",
     variables: {
       name,
     },
   });
   const lastSubscriptionRef = useRef<any>();
 
-  console.log({ data });
+  console.log({ error });
 
   const unsubscribe = () => {
     if (lastSubscriptionRef.current) {
@@ -58,7 +58,8 @@ export function AppInternal() {
 
         <Button
           onClick={() => {
-            setName("VI");
+            refetch();
+            // setName("VI");
             // setName((prev) => prev + "a");
             // unsubscribe();
             // Need to wait for the next event loop to continue querying
