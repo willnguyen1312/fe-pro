@@ -33,9 +33,11 @@ export function AppInternal() {
     apolloClient
       .query({
         query: GET_MOVIES,
+        errorPolicy: "all",
         // fetchPolicy: "no-cache",
       })
       .then((result) => {
+        debugger;
         setData(result.data);
       })
       .catch((error) => {
