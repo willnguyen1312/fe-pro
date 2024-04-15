@@ -17,9 +17,12 @@ const GET_MOVIES = gql`
 export function AppInternal() {
   const [name, setName] = useState("Nam");
   const { data, refetch, error } = useQuery(GET_MOVIES, {
-    // fetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
     variables: {
       name,
+    },
+    onError() {
+      console.log(arguments);
     },
   });
   const lastSubscriptionRef = useRef<any>();
