@@ -8,9 +8,11 @@
     "test-vanilla": "pnpm --filter 'vanilla' test",
     "test-react": "pnpm --filter 'react' test",
     "test-vue": "pnpm --filter 'vue' test",
-    "test": "turbo run test:run"
+    "test": "turbo run test:run",
+    "run-local-package": "node --experimental-modules index.mjs"
   },
   "dependencies": {
-    "turbo": "^1.13.2"
+    "turbo": "^1.13.2",
+    "rocker": "./packages/rocker"
   }
 }
