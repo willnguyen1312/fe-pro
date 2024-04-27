@@ -1,4 +1,4 @@
-import { Page, BlockStack, Button } from "@shopify/polaris";
+import { Page, BlockStack, Button, Card, Text } from "@shopify/polaris";
 import { gql, useQuery, useApolloClient, ApolloError } from "@apollo/client";
 import "@shopify/polaris/build/esm/styles.css";
 
@@ -17,39 +17,41 @@ const GET_MOVIES = gql`
 export function AppInternal() {
   const [name, setName] = useState("Nam");
   const apolloClient = useApolloClient();
-  const [data, setData] = useState<any>(null);
-  // const { data, refetch, error } = useQuery(GET_MOVIES, {
-  //   // fetchPolicy: "cache-and-network",
-  //   // variables: {
-  //   //   name,
-  //   // },
-  //   onError() {
-  //     // console.log(arguments);
-  //   },
-  // });
+  // const [data, setData] = useState<any>(null);
+  const { data, refetch, error, loading } = useQuery(GET_MOVIES, {
+    // fetchPolicy: "no-cache",
+    // variables: {
+    //   name,
+    // },
+    // onError() {
+    // console.log(arguments);
+    // },
+  });
+  console.log({ loading });
+
   const lastSubscriptionRef = useRef<any>();
 
-  const fetchMovies = () => {
-    apolloClient
-      .query({
-        query: GET_MOVIES,
-        errorPolicy: "all",
-        // fetchPolicy: "no-cache",
-      })
-      .then((result) => {
-        debugger;
-        setData(result.data);
-      })
-      .catch((error) => {
-        if (error instanceof ApolloError) {
-          console.log({ error });
-        }
-      });
-  };
+  // const fetchMovies = () => {
+  //   apolloClient
+  //     .query({
+  //       query: GET_MOVIES,
+  //       errorPolicy: "all",
+  //       // fetchPolicy: "no-cache",
+  //     })
+  //     .then((result) => {
+  //       debugger;
+  //       setData(result.data);
+  //     })
+  //     .catch((error) => {
+  //       if (error instanceof ApolloError) {
+  //         console.log({ error });
+  //       }
+  //     });
+  // };
 
-  useEffect(() => {
-    fetchMovies();
-  }, []);
+  // useEffect(() => {
+  //   fetchMovies();
+  // }, []);
 
   const unsubscribe = () => {
     if (lastSubscriptionRef.current) {
@@ -63,7 +65,7 @@ export function AppInternal() {
       <BlockStack gap="400">
         <Button
           onClick={() => {
-            fetchMovies();
+            refetch();
           }}
         >
           Load movie
@@ -73,7 +75,7 @@ export function AppInternal() {
 
         <Button onClick={unsubscribe}>Cancel</Button>
 
-        {/* <Card>
+        <Card>
           {loading && <Text as="p">Loading...</Text>}
           {error && <Text as="p">{error.message}</Text>}
           {data?.movies.map((movie) => (
@@ -81,7 +83,7 @@ export function AppInternal() {
               {movie.title}
             </Text>
           ))}
-        </Card> */}
+        </Card>
       </BlockStack>
     </Page>
   );

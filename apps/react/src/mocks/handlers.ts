@@ -26,9 +26,9 @@ export const handlers: any = [
         movies,
       },
       errors: [
-        {
-          message: "Error",
-        },
+        // {
+        //   message: "Error",
+        // },
       ],
     });
   }),
@@ -54,7 +54,7 @@ export const handlers: any = [
         {
           // Status for bad data
           status: 400,
-        },
+        }
       );
     }
 
