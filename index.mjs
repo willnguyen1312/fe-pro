@@ -1,3 +1,3 @@
-import {sayHi} from 'rocker'
+import { sayHi } from "rocker";
 
-sayHi()
+sayHi();
