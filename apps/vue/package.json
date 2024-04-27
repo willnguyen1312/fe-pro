@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "msw": "^2.2.13",
+    "msw": "^2.2.14",
     "vue": "^3.3.11"
   },
   "devDependencies": {
@@ -19,9 +19,9 @@
     "@testing-library/user-event": "^14.5.2",
     "@testing-library/vue": "^8.0.3",
     "@vitejs/plugin-vue": "^5.0.4",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.8",
-    "vitest": "^1.4.0",
-    "vue-tsc": "^2.0.7"
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10",
+    "vitest": "^1.5.2",
+    "vue-tsc": "^2.0.14"
   }
 }

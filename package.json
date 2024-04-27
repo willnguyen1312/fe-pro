@@ -12,7 +12,7 @@
     "run-local-package": "node --experimental-modules index.mjs"
   },
   "dependencies": {
-    "turbo": "^1.13.2",
-    "rocker": "./packages/rocker"
+    "rocker": "./packages/rocker",
+    "turbo": "^1.13.3"
   }
 }
