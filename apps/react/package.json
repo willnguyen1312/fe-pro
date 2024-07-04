@@ -11,8 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@apollo/client": "^3.10.5",
-    "@shopify/polaris": "^13.5.0",
+    "@apollo/client": "^3.10.8",
+    "@shopify/polaris": "^13.6.1",
     "@shopify/react-graphql": "^10.2.1",
     "@types/jest-axe": "^3.5.9",
     "jest-axe": "^9.0.0",
@@ -28,10 +28,10 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/coverage-v8": "^1.6.0",
-    "happy-dom": "^14.12.0",
+    "happy-dom": "^14.12.3",
     "magic-string": "^0.30.10",
-    "typescript": "^5.4.5",
-    "vite": "^5.3.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3",
     "vite-plugin-inspect": "^0.8.4",
     "vitest": "^1.6.0"
   },

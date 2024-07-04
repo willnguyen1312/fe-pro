@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "rocker": "./packages/rocker",
-    "turbo": "^2.0.4"
+    "turbo": "^2.0.6"
   }
 }
